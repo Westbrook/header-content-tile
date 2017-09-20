@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>Better Microblogging</title>
+    <meta name="description" content="Microblogging for you and yours at Better!">
+
+    <!--
+      If deploying to a non-root path, replace href="/" with the full path to the project root.
+      For example: href="/polymer-starter-kit/relative-path-example/"
+    -->
+    <base href="/">
+
+    <link rel="icon" href="images/better-icon.svg">
+
+    <!-- See https://goo.gl/OOhYW5 -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- See https://goo.gl/qRE0vM -->
+    <meta name="theme-color" content="#3f51b5">
+
+    <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="My App">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My App">
+
+    <!-- Homescreen icons -->
+    <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/manifest/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="images/manifest/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/manifest/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="images/manifest/icon-192x192.png">
+
+    <!-- Tile icon for Windows 8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/manifest/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#3f51b5">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <script>
+      // Register the base URL
+      const baseUrl = document.querySelector('base').href;
+
+      // Load and register pre-caching Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register(baseUrl + 'service-worker.js');
+        });
+      }
+
+      var users = {
+        '1': {
+          username: 'stevekovach',
+          real_name: 'Steve Kovach',
+          verified: true
+        },
+        '2': {
+          username: 'ConanOBrien',
+          real_name: 'Conan O\' Brien',
+          verified: true
+        },
+        '3': {
+          username: 'mike_matas',
+          real_name: 'Mike Matas',
+          verified: false
+        },
+        '4': {
+          username: 'your_name',
+          real_name: 'You',
+          verified: false
+        }
+      };
+
+      var posts = [
+        {
+          id: 2374237842,
+          user: 1,
+          message: 'Go 3 days without your favorite thing. Then go 3 days without sleep. It turns out sleep is actually your favorite thing.',
+          ts: 1337774582,
+          likes: 0,
+          reposts: 0,
+          replies: 0
+        },
+        {
+          id: 2374272076,
+          user: 2,
+          message: 'If I were in prison, I wouldn\'t ruin my spoon trying to tunnel out, because going without morning yogurt is its own prison.',
+          ts: 1337968739,
+          likes: 0,
+          reposts: 0,
+          replies: 0
+        },
+        {
+          id: 4545435344,
+          user: 3,
+          message: 'Driving over the mountains into California on our way home from Canada.',
+          ts: 1461607139,
+          attachment: true,
+          likes: 0,
+          reposts: 0,
+          replies: 0
+        },
+        {
+          id: 4629293242,
+          user: 2,
+          reply_to: 4545435344,
+          message: 'Love this shot. Reminds me of the days Logan and I used to wander the streets looking for tourists to frighten',
+          ts: 1478942943,
+          likes: 0,
+          reposts: 0,
+          replies: 0
+        }
+      ];
+    </script>
+
+    <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
+    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
+    <!-- Load your application shell -->
+    <link rel="import" href="src/better-microblog.html">
+
+    <!-- Add any global styles for body, document, etc. -->
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        line-height: 1.5;
+        min-height: 100vh;
+        max-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <dom-bind id="betterMicroblog">
+      <template>
+        <better-microblog
+          current-user="4"
+          posts="[[posts]]"
+          users="[[users]]"
+        ></better-microblog>
+      </template>
+    </dom-bind>
+    <script>
+      var blog = document.querySelector('#betterMicroblog');
+      blog.posts = posts;
+      blog.users = users;
+    </script>
+    <noscript>
+      Please enable JavaScript to view this website.
+    </noscript>
+    <!-- Built with love using Polymer Starter Kit -->
+  </body>
+</html>

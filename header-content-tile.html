@@ -1,0 +1,86 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="header-content-tile">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .header {
+        display: flex;
+        background: var(--header-content-tile-header-background);
+        height: var(--header-content-tile-header-height);
+        line-height: var(--header-content-tile-header-height);
+      }
+
+      .spacer {
+        flex-grow: 1;
+      }
+
+      ::slotted([slot="headline"]) {
+        margin: 0;
+        color: var(--header-content-tile-header-color);
+        padding: 0 var(--header-content-tile-rhythm);
+        font-size: var(--header-content-tile-header-font-size);
+        font-weight: normal;
+      }
+
+      ::slotted(button) {
+        border: none;
+        background: none;
+        padding: 0;
+        color: var(--header-content-tile-header-color);
+        font-size: var(--header-content-tile-header-font-size);
+        cursor: pointer;
+        text-align: center;
+        width: var(--header-content-tile-header-button-width);
+        border-left: 1px solid;
+      }
+
+      :host([contentful]) {
+        position: relative;
+      }
+
+      :host([contentful]) ::slotted([slot="content"]) {
+        position: absolute;
+        top: var(--header-content-tile-header-height);
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+    </style>
+    <header class="header">
+      <slot name="headline">You haven't set a headline</slot>
+      <span class="spacer"></span>
+      <slot></slot>
+    </header>
+    <section class="content">
+      <slot name="content"></slot>
+    </section>
+  </template>
+
+  <script>
+    /**
+     * `header-content-tile`
+     * Display a header bar with action buttons attached to a content area in a tile.
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class HeaderContentTile extends Polymer.Element {
+      static get is() { return 'header-content-tile'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'header-content-tile'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(HeaderContentTile.is, HeaderContentTile);
+  </script>
+</dom-module>

@@ -1,0 +1,14 @@
+{
+  "name": "twilio-video-chat-web-component",
+  "homepage": "https://github.com/Westbrook/twilio-video-chat-web-component",
+  "_release": "98fca5481d",
+  "_resolution": {
+    "type": "branch",
+    "branch": "v1-component",
+    "commit": "98fca5481d0c82ad035c273baba17f7fbc34fdf3"
+  },
+  "_source": "https://github.com/Westbrook/twilio-video-chat-web-component.git",
+  "_target": "v1-component",
+  "_originalSource": "Westbrook/twilio-video-chat-web-component",
+  "_direct": true
+}

@@ -1,0 +1,146 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="better-avatar.html">
+<link rel="import" href="better-user-readable.html">
+<link rel="import" href="better-time-since.html">
+<link rel="import" href="better-post-content.html">
+<link rel="import" href="better-post-actions.html">
+<link rel="import" href="my-icons.html">
+
+<dom-module id="better-post">
+  <template>
+    <style>
+      :host {
+        border-right: solid transparent 48px;
+
+        @apply --layout;
+
+        --beter-avatar-size: 48px;
+        --iron-image-width: 100%;
+        --iron-image-placeholder: {
+          background-repeat: no-repeat;
+          background-position: center center;
+        };
+      }
+      :host([self]) {
+        flex-direction: row-reverse;
+        border: none;
+        border-left: solid transparent 48px;
+
+        --better-post-content-background-color: #00c397;
+        --better-post-content-color: #fff;
+        --better-post-actions-color: #fff;
+      }
+      :host([response]) {
+        padding: 0 68px;
+      }
+      better-avatar {
+        flex-shrink: 0;
+      }
+      [hidden] {
+        display: none;
+      }
+      .post-card {
+        flex-grow: 1;
+        margin: 0 16px;
+        position: relative;
+
+        @apply --layout;
+        @apply --layout-wrap;
+        @apply --layout-justified;
+      }
+      better-post-content {
+        flex-basis: 100%;
+        flex-shrink: 0;
+        position: relative;
+      }
+      better-post-content:before {
+        position: absolute;
+        right: 100%;
+        top: 10px;
+        content: '';
+        border-width: 10px;
+        border-top-width: 0;
+        border-left-width: 0;
+        border-color: var(--better-post-content-background-color, #f6f6f6);
+        border-bottom-color: transparent;
+        border-style: solid;
+      }
+      :host([self]) better-post-content:before {
+        right: auto;
+        left: 100%;
+        border-left-width: 10px;
+        border-right-width: 0;
+      }
+      .media {
+        width: 100%;
+      }
+      iron-image {
+        width: 100%;
+        height: 0;
+        display: block;
+        padding-bottom: 117%; /* Hack for lack of data in api */
+      }
+    </style>
+    <better-avatar src="[[_getUserAvatar(post.user, self)]]"></better-avatar>
+    <div class="post-card">
+      <better-user-readable user="[[user]]"></better-user-readable>
+      <better-time-since timestamp="[[post.ts]]"></better-time-since>
+      <better-post-content post="{{post}}">
+        <div slot="content" class="content">
+          [[post.message]]
+          <a href="images/posts/[[post.id]].png" hidden$="[[!post.attachment]]">
+            <iron-icon icon="link"></iron-icon>
+          </a>
+        </div>
+        <div slot="media" hidden$="[[!post.attachment]]" class="media">
+          <iron-image
+            src="images/posts/[[post.id]].png"
+            fade
+            preload
+            prevent-load="[[!post.attachment]]"
+            placeholder="images/better-icon.svg"
+          ></iron-image>
+        </div>
+      </better-post-content>
+    </div>
+  </template>
+
+  <script>
+    class BetterPost extends Polymer.Element {
+
+      static get is() { return 'better-post'; }
+
+      static get properties() {
+        return {
+          post: {
+            type: Object,
+            value: () => {},
+            notify: true
+          },
+          user: {
+            type: Object,
+            value: () => {}
+          },
+          self: {
+            type: Boolean,
+            reflectToAttribute: true
+          },
+          response: {
+            type: Boolean,
+            reflectToAttribute: true
+          }
+        };
+      }
+
+      _getUserAvatar(user, self) {
+        if (self) return '';
+        return 'images/avatars/' + user + '.png'
+      }
+    }
+
+    window.customElements.define(BetterPost.is, BetterPost);
+  </script>
+</dom-module>

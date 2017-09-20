@@ -1,0 +1,49 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="my-icons.html">
+
+<dom-module id="better-user-readable">
+  <template>
+    <style>
+      :host {
+        display: block;
+        font-size: 11px;
+        color: var(--better-user-readable-color, #092828);
+
+        --iron-icon-width: var(--better-user-readable-icon-size, 14px);
+        --iron-icon-height: var(--better-user-readable-icon-size, 14px);
+      }
+      iron-icon {
+        top: -1px;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+    <iron-icon icon="myicons:verified-user" hidden="[[!user.verified]]"></iron-icon>
+    [[user.real_name]] -
+    <a href="/user/[[user.username]]" title="[[user.real_name]]">@[[user.username]]</a>
+
+  </template>
+
+  <script>
+    class BetterUserReadable extends Polymer.Element {
+
+      static get is() { return 'better-user-readable'; }
+
+      static get properties() {
+        return {
+          src: {
+            type: String
+          }
+        };
+      }
+    }
+
+    window.customElements.define(BetterUserReadable.is, BetterUserReadable);
+  </script>
+</dom-module>

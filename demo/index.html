@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>header-content-tile demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../iron-icons/iron-icons.html">
+    <link rel="import" href="../../twilio-video-chat-web-component/public/twilio-video.html">
+    <link rel="import" href="../../iron-icons/communication-icons.html">
+    <link rel="import" href="../../iron-icons/av-icons.html">
+    <link rel="import" href="../../better-microblog/better-microblog.html">
+    <link rel="import" href="../header-content-tile.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+  <div class="vertical-section-container centered">
+    <h3>Basic header-content-tile demo</h3>
+    <demo-snippet>
+      <template>
+        <custom-style>
+          <style is="custom-style">
+            html {
+              --header-content-tile-header-background: #00ce9b;
+              --header-content-tile-header-color: #fff;
+              --header-content-tile-rhythm: 8px;
+              --header-content-tile-header-height: calc(var(--header-content-tile-rhythm) * 4);
+              --header-content-tile-header-font-size: calc(var(--header-content-tile-rhythm) * 2);
+              --header-content-tile-header-button-width: var(--header-content-tile-header-height);
+            }
+            iron-icon {
+              border: 3px solid transparent;
+              box-sizing: border-box;
+            }
+            header-content-tile {
+              height: 500px;
+              box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+                    0 1px 8px 0 rgba(0, 0, 0, 0.12),
+                    0 3px 3px -2px rgba(0, 0, 0, 0.4);
+            }
+          </style>
+        </custom-style>
+        <header-content-tile contentful>
+          <h1 slot="headline">Japanese with Asami N</h1>
+          <button id="join">
+            <iron-icon icon="communication:phone"><iron-icon>
+          </button>
+          <button>
+            <iron-icon icon="av:videocam"><iron-icon>
+          </button>
+          <button>
+            <iron-icon icon="icons:settings"><iron-icon>
+          </button>
+          <twilio-video slot="content" id="video"></twilio-video>
+        </header-content-tile>
+      </template>
+    </demo-snippet>
+  </div>
+  <script>
+    let join = document.querySelector('#join');
+    let video = document.querySelector('#video');
+    join.addEventListener('click', function() {
+      video.enterRoom();
+    });
+  </script>
+
+  <div class="vertical-section-container centered">
+    <h3>Basic header-content-tile demo</h3>
+    <demo-snippet>
+      <template>
+        <custom-style>
+          <style is="custom-style">
+            html {
+              --header-content-tile-header-background: #00ce9b;
+              --header-content-tile-header-color: #fff;
+              --header-content-tile-rhythm: 8px;
+              --header-content-tile-header-height: calc(var(--header-content-tile-rhythm) * 4);
+              --header-content-tile-header-font-size: calc(var(--header-content-tile-rhythm) * 2);
+              --header-content-tile-header-button-width: var(--header-content-tile-header-height);
+            }
+            iron-icon {
+              border: 3px solid transparent;
+              box-sizing: border-box;
+            }
+            better-microblog {
+              height: auto;
+              scroll-boundary-behavior: contain;
+            }
+          </style>
+        </custom-style>
+        <header-content-tile contentful>
+          <h1 slot="headline">Whiteboarding</h1>
+          <button>
+            <iron-icon icon="icons:arrow-upward"><iron-icon>
+          </button>
+          <better-microblog slot="content" id="text"></better-microblog>
+        </header-content-tile>
+      </template>
+    </demo-snippet>
+  </div>
+  <script>
+    var users = {
+      '1': {
+        username: 'stevekovach',
+        real_name: 'Steve Kovach',
+        verified: true
+      },
+      '2': {
+        username: 'ConanOBrien',
+        real_name: 'Conan O\' Brien',
+        verified: true
+      },
+      '3': {
+        username: 'mike_matas',
+        real_name: 'Mike Matas',
+        verified: false
+      },
+      '4': {
+        username: 'your_name',
+        real_name: 'You',
+        verified: false
+      }
+    };
+    var posts = [
+      {
+        id: 2374237842,
+        user: 1,
+        message: 'Go 3 days without your favorite thing. Then go 3 days without sleep. It turns out sleep is actually your favorite thing.',
+        ts: 1337774582,
+        likes: 0,
+        reposts: 0,
+        replies: 0
+      },
+      {
+        id: 2374272076,
+        user: 2,
+        message: 'If I were in prison, I wouldn\'t ruin my spoon trying to tunnel out, because going without morning yogurt is its own prison.',
+        ts: 1337968739,
+        likes: 0,
+        reposts: 0,
+        replies: 0
+      },
+      {
+        id: 4545435344,
+        user: 3,
+        message: 'Driving over the mountains into California on our way home from Canada.',
+        ts: 1461607139,
+        attachment: true,
+        likes: 0,
+        reposts: 0,
+        replies: 0
+      },
+      {
+        id: 4629293242,
+        user: 2,
+        reply_to: 4545435344,
+        message: 'Love this shot. Reminds me of the days Logan and I used to wander the streets looking for tourists to frighten',
+        ts: 1478942943,
+        likes: 0,
+        reposts: 0,
+        replies: 0
+      }
+    ];
+    var text = document.querySelector('#text');
+     text.posts = posts;
+     text.users = users;
+  </script>
+  </body>
+</html>

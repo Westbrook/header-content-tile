@@ -1,0 +1,62 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="time-elements.html">
+
+<dom-module id="better-time-since">
+  <template>
+    <style>
+      :host {
+        display: block;
+        font-size: 11px;
+        color: var(--better-user-readable-color, #092828);
+      }
+    </style>
+    [[dateStringReadable]]
+  </template>
+
+  <script>
+    class BetterTimeSince extends Polymer.Element {
+
+      static get is() { return 'better-time-since'; }
+
+      static get properties() {
+        return {
+          timestamp: {
+            type: Number
+          },
+          dateStringReadable: {
+            type: String,
+            computed: '_computeDateStringReadable(timestamp)'
+          }
+        };
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this._runTime();
+      }
+
+      _runTime() {
+        requestAnimationFrame(this._checkTime.bind(this));
+      }
+
+      _checkTime() {
+        this._runTime();
+        this._timePassed = this._timePassed || 0;
+        this._timePassed++;
+        if (this._timePassed > 60 * 5) {
+          this._timePassed = 0;
+          this._computeDateStringReadable(this.timestamp);
+        }
+      }
+
+      _computeDateStringReadable(timestamp) {
+        var time = new RelativeTime();
+        var now = Date.now();
+        return time.timeAgoFromMs(now - timestamp);
+      }
+    }
+
+    window.customElements.define(BetterTimeSince.is, BetterTimeSince);
+  </script>
+</dom-module>

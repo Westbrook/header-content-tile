@@ -1,0 +1,23 @@
+{
+  "name": "better-microblog",
+  "authors": [
+    "Westbrook Johnson"
+  ],
+  "dependencies": {
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0",
+    "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^2.0.0",
+    "paper-icon-button": "PolymerElements/paper-icon-button#^2.0.0",
+    "paper-styles": "PolymerElements/paper-styles#^2.0.0",
+    "polymer": "Polymer/polymer#^2.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
+    "iron-list": "polymerelements/iron-list#^2.0.3",
+    "iron-image": "PolymerElements/iron-image#^2.1.1",
+    "time-elements": "github/time-elements#^0.6.1",
+    "paper-input": "Westbrook/paper-input#dc16351250747f1884",
+    "paper-tooltip": "PolymerElements/paper-tooltip#^2.0.0"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0-prerelease.7"
+  },
+  "private": true
+}

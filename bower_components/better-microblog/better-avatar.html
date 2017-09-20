@@ -1,0 +1,63 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../iron-image/iron-image.html">
+
+<dom-module id="better-avatar">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border-radius: 50%;
+        width: var(--beter-avatar-size);
+        height: var(--beter-avatar-size);
+        background: #092828;
+        overflow: hidden;
+        position: relative;
+
+        --iron-image-width: 100%;
+        --iron-image-height: 100%;
+        --iron-image-placeholder: {
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: 50%;
+        };
+      }
+      iron-image {
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        bottom: -1px;
+        left: -1px;
+      }
+    </style>
+    <iron-image
+      src="[[_isSrc(src)]]"
+      fade
+      preload
+      prevent-load="[[!src]]"
+      placeholder="images/better-icon.svg"
+    ></iron-image>
+  </template>
+
+  <script>
+    class BetterAvatar extends Polymer.Element {
+
+      static get is() { return 'better-avatar'; }
+
+      static get properties() {
+        return {
+          src: {
+            type: String
+          }
+        };
+      }
+
+      _isSrc(src) {
+        if (src === '') return false;
+        return src;
+      }
+    }
+
+    window.customElements.define(BetterAvatar.is, BetterAvatar);
+  </script>
+</dom-module>

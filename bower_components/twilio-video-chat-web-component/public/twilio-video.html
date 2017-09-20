@@ -1,0 +1,53 @@
+<script src="https://media.twiliocdn.com/sdk/js/video/v1/twilio-video.min.js"></script>
+<script src="random-identity-generator.js"></script>
+
+<template id="twilio-video-template">
+  <style type="text/css">
+  :host {
+    display: block;
+    position: relative;
+  }
+  video {
+    max-height: 100%;
+  }
+  .hidden {
+    display: none;
+  }
+  #caller {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  #caller video,
+  #me video {
+    width: 100%;
+  }
+  #me {
+    position: absolute;
+    width: 25%;
+    bottom: 5%;
+    right: 5%;
+  }
+  #leave {
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+  }
+  #enter {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+  }
+  </style>
+
+  <div id="picture-in-picture">
+    <div id="caller"></div>
+    <div id="me"></div>
+    <button id="leave">Leave Room</button>
+    <button id="enter">Enter Room</button>
+  </div>
+</template>
+
+<script src="twilio-video.js"></script>

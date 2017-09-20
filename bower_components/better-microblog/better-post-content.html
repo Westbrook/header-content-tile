@@ -1,0 +1,62 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="my-icons.html">
+
+<dom-module id="better-post-content">
+  <template>
+    <style>
+      :host {
+        display: block;
+        color: var(--better-post-content-color, #092828);
+        font-size: 15px;
+        line-height: 21px;
+      }
+      ::slotted(.content) {
+        padding: 16px;
+      }
+      .content {
+        background-color: var(--better-post-content-background-color, #f6f6f6);
+        overflow: hidden;
+        border-radius: 7px;
+      }
+      better-post-actions {
+        background-color: var(--better-post-content-background-color, #f6f6f6);
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s ease-in-out;
+      }
+      :host(:hover) better-post-actions {
+        opacity: 1;
+        pointer-events: all;
+      }
+    </style>
+    <div class="content">
+      <slot name="content"></slot>
+      <slot name="media"></slot>
+    </div>
+    <better-post-actions post="[[post]]"></better-post-actions>
+  </template>
+
+  <script>
+    class BetterPostContent extends Polymer.Element {
+
+      static get is() { return 'better-post-content'; }
+
+      static get properties() {
+        return {
+          post: {
+            type: Object,
+            notify: true
+          }
+        };
+      }
+    }
+
+    window.customElements.define(BetterPostContent.is, BetterPostContent);
+  </script>
+</dom-module>

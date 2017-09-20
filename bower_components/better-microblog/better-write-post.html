@@ -1,0 +1,140 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../polymer/lib/mixins/gesture-event-listeners.html">
+<link rel="import" href="my-icons.html">
+
+<dom-module id="better-write-post">
+  <template>
+    <style>
+      :host {
+        display: block;
+        position: relative;
+        overflow: hidden;
+
+        --iron-icon-width: var(--better-write-post-icon-size, 20px);
+        --iron-icon-height: var(--better-write-post-icon-size, 20px);
+        --paper-input-container-color: #d8dfdf;
+        --paper-input-container: {
+          position: relative;
+          padding: 0;
+        };
+        --paper-input-container-add-on-content: {
+          position: absolute;
+          left: 0;
+          top: 50%;
+          width: 37px;
+          transform: translateY(-50%);
+        };
+        --paper-input-char-counter: {
+          width: 37px;
+          text-align: center;
+        }
+        --paper-input-container-underline: {
+          display: none;
+        };
+        --paper-input-container-underline-focus: {
+          display: none;
+        };
+        --paper-input-container-underline-disabled: {
+          display: none;
+        };
+        --paper-input-container-input: {
+          padding: 0 37px;
+          box-sizing: border-box;
+          line-height: 48px;
+        }
+      }
+      paper-input {
+        border-top: 1px solid #d8dfdf;
+        color: #d8dfdf;
+        top: 1px;
+        position: relative;
+        height: 48px;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      paper-input[focused] {
+        border-top: 1px solid #00c397;
+        color: #00c397;
+
+        --paper-input-container-focus-color: #00c397;
+      }
+      paper-icon-button {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #d8dfdf;
+      }
+      paper-input[focused] + paper-icon-button {
+        color: #00c397;
+      }
+    </style>
+    <paper-input
+      id="input"
+      no-label-float
+      char-counter
+      count-down
+      maxlength="140"
+      placeholder="what's happening?"
+      value="{{message}}"
+    ></paper-input>
+    <paper-icon-button icon="myicons:send" on-transitionend="_submitPost"></paper-icon-button>
+  </template>
+
+  <script>
+    class BetterWritePost extends Polymer.GestureEventListeners(Polymer.Element) {
+
+      static get is() { return 'better-write-post'; }
+
+      static get properties() {
+        return {
+          message: {
+            type: String,
+            value: ''
+          }
+        };
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this.addEventListener('keydown', this._keydownHandler.bind(this));
+      }
+
+      disconnectedCallback () {
+        super.disconnectedCallback();
+        this.removeEventListener('keydown', this._keydownHandler.bind(this));
+      }
+
+      _keydownHandler(e) {
+        switch (e.keyCode) {
+          case /* ENTER */ 13:
+            if (this.message) {
+              this._submitPost();
+            }
+            break;
+        }
+      }
+
+      _submitPost() {
+        var post = {
+          message: this.message,
+          likes: 0,
+          replies: 0,
+          reposts: 0
+        };
+        var event = new CustomEvent('better-new-post', {detail: {post: post}, bubbles: true, composed: true});
+        this.dispatchEvent(event);
+        this.message = '';
+      }
+
+      focus() {
+        this.$.input._focusableElement.focus();
+      }
+    }
+
+    window.customElements.define(BetterWritePost.is, BetterWritePost);
+  </script>
+</dom-module>

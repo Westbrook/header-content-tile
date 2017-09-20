@@ -1,0 +1,112 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-list/iron-list.html">
+<link rel="import" href="better-post.html">
+<link rel="import" href="better-write-post.html">
+<link rel="import" href="my-icons.html">
+
+<dom-module id="better-microblog">
+  <template>
+    <style>
+      :host {
+        height: 100vh;
+        @apply --layout-vertical;
+
+        --iron-list-items-container: {
+          margin: 20px;
+        };
+      }
+      iron-list {
+        flex-grow: 1;
+        flex-basis: 100%;
+      }
+      better-post {
+        width: 100%;
+        padding-bottom: 16px;
+      }
+      better-write-post {
+        flex-shrink: 0;
+        height: 48px;
+      }
+    </style>
+    <iron-list items="{{posts}}" as="post">
+      <template>
+        <better-post
+          post="{{post}}"
+          user="[[_getUser(post.user, users.*)]]"
+          response="[[post.reply_to]]"
+          self="[[_isCurrentUser(post.user, currentUser)]]"
+        ></better-post>
+      </template>
+    </iron-list>
+    <better-write-post id="write"></better-write-post>
+  </template>
+
+  <script>
+    class BetterMicroblog extends Polymer.Element {
+
+      static get is() { return 'better-microblog'; }
+
+      static get properties() {
+        return {
+          currentUser: {
+            type: Number
+          },
+          posts: {
+            type: Array,
+            value: () => []
+          },
+          users: {
+            type: Object,
+            value: () => {}
+          }
+        };
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this.addEventListener('better-new-post', this._addNewPost.bind(this));
+        this.addEventListener('better-new-post-reply-to-target', this._replyToTarget.bind(this));
+      }
+
+      disconnectedCallback () {
+        super.disconnectedCallback();
+        this.removeEventListener('better-new-post', this._addNewPost.bind(this));
+        this.removeEventListener('better-new-post-reply-to-target', this._replyToTarget.bind(this));
+      }
+
+      _addNewPost(e) {
+          var post = e.detail.post;
+          post.user = this.currentUser;
+          post.ts = Date.now();
+          if (this.reply_to) {
+            post.reply_to = this.reply_to;
+            this.reply_to = null;
+            for (let i = 0, l = this.posts.length; i < l; i++) {
+              if (this.posts[i].id === post.reply_to) {
+                this.splice('posts', i + 1, 0, post);
+              }
+            }
+          } else {
+            this.unshift('posts', post);
+          }
+      }
+
+      _replyToTarget(e) {
+        this.reply_to = e.detail.reply_to;
+        this.$.write.focus();
+      }
+
+      _getUser(user) {
+        return this.users[user];
+      }
+
+      _isCurrentUser(postUser, currentUser) {
+        return postUser === currentUser;
+      }
+    }
+
+    window.customElements.define(BetterMicroblog.is, BetterMicroblog);
+  </script>
+</dom-module>
