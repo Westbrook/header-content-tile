@@ -18,7 +18,7 @@
         flex-grow: 1;
       }
 
-      ::slotted([slot="headline"]) {
+      .header ::slotted([slot="headline"]) {
         margin: 0;
         color: var(--header-content-tile-header-color);
         padding: 0 var(--header-content-tile-rhythm);
@@ -26,7 +26,7 @@
         font-weight: normal;
       }
 
-      ::slotted(button) {
+      .header ::slotted(button) {
         border: none;
         background: none;
         padding: 0;
@@ -42,7 +42,7 @@
         position: relative;
       }
 
-      :host([contentful]) ::slotted([slot="content"]) {
+      :host([contentful]) .content ::slotted([slot="content"]) {
         position: absolute;
         top: var(--header-content-tile-header-height);
         right: 0;
